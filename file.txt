@@ -1,0 +1,14 @@
+#Insert here energy values 
+#Most accurate value to be corrected:
+CCSD(T)/jun-cc-pVTZ = 
+#Energy values at HF level for the calculation of HF energy at CBS limit:
+HF/jun-cc-pVTZ = 
+HF/jun-cc-pVQZ = 
+HF/jun-cc-pV5Z = 
+#Energy values at MP2 level for the calculation of MP2 energy at CBS limit, note that when corr only correlation energy is needed:
+MP2/jun-cc-pVTZ = 
+MP2corr/jun-cc-pVTZ = 
+MP2corr/jun-cc-pVQZ = 
+#Energy values at MP2 level for the core-valence correlation estimate
+MP2/ae = 
+MP2/fc = 
