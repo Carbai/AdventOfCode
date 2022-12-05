@@ -1,72 +1,61 @@
+from functools import partialmethod
 import numpy as np
 import re
 with open ('example.txt') as ifile:
     LINES=ifile.readlines()
     LINES=[line.strip("\n") for line in LINES]
 
-def find_struc_and_moves (input: list) -> list:
+def find_struc_and_moves (input: list) -> dict:
     my_dict = {}
-    splitting_index = input.index("")
-    stacks_list = input[0:splitting_index]
+    stacks_list = file_parsing(input)[0]
     keys = [lett for lett in stacks_list[-1] if lett.isdigit()]
-    stacks_list = input[0:splitting_index-1]
-    stacks_list = [ele.replace("[", " ").replace("]", " ") for ele in stacks_list]
-    
+    stacks_list = stacks_list[:-1]
+    stacks_list = [ele.replace("[", " ").replace("]", " ") for ele in stacks_list]   
     values = list(map(list, zip(*stacks_list)))
 
-    for i in reversed(range(len(values))):
-            
+    for i in reversed(range(len(values))):           
         if all(x == " " for x in values[i]):
             values.remove(values[i])
-
     [value.reverse() for value in values]
     new_values = []
     for value in values:
         new_values.append([x for x in value if x != ' '])
-
     my_dict={k:v for k,v in zip(keys,new_values)}
 
-    moves = input[splitting_index+1:]
-    moves_to_do = get_moves(moves)
+    return my_dict
 
+def file_parsing(input: list) -> tuple:
+    splitting_index = input.index("")
+   # moves_to_do = get_moves(moves)
+    return input[0:splitting_index], input[splitting_index+1:] 
+
+def get_moves(lines: list) -> list:
+    moves = file_parsing(lines)[1]
+    moves_to_do = []
+    for move in moves:
+        moves_to_do.append([s for s in re.findall(r'-?\d+\.?\d*', move)])        
+    return moves_to_do
+
+    #part one  
+def part_one (lines: list) -> str:
+    my_dict = find_struc_and_moves(lines)
+    moves_to_do = get_moves(lines)
     for move in moves_to_do:
-        for ele_to_move in range(move[0]):
-         #   print(ele_to_move)
-            #part one
-            to_append=my_dict.get(str(move[1]))[-1]
+        my_dict[move[-1]].extend(reversed(my_dict[move[1]][-int(move[0]) :]))
+        my_dict[move[1]] = my_dict[move[1]][: -int(move[0])]
+    return (solution_str(my_dict))
 
-            #part two
-       # to_append=my_dict.get(str(move[1]))[len(my_dict.get(str(move[1])))-1-move[0] :]
+    #part two
+def part_two (lines: list) -> str:  
+    my_dict = find_struc_and_moves(lines)
+    moves_to_do = get_moves(lines)
+    for move in moves_to_do:
+        my_dict[move[-1]].extend(my_dict[move[1]][-int(move[0]) :])
+        my_dict[move[1]] = my_dict[move[1]][: -int(move[0])]
+    return solution_str(my_dict)
 
-       # my_dict[str(move[-1])].append(to_append)
-       # my_dict[str(move[1])].remove(to_append)
-            #(len(my_dict.get(str(move[1])))-1-ele_to_move)
-       # print(to_append)
-            #my_dict[str(move[1])],my_dict[str(move[1])].pop(0))
-
-           # print(to_append[len(to_append)-1], 'toapp')
-            #[len(my_dict.get(str(move[1])))-ele_to_move]
-         #   print(my_dict.get(str(move[1])),type(ele_to_move), len(my_dict.get(str(move[1])))-ele_to_move)
-            my_dict[str(move[-1])].append(to_append)
-            #my_dict[str(move[1])].pop(my_dict.get(str(move[1]))[len(my_dict.get(str(move[1])))-1-ele_to_move])
-          #  my_dict[str(move(1))]=my_dict[str(move(1))].values()[:,len(my_dict.get(str(move[1])))-1-move[0]]
-          #  print([my_dict[str(move[1])].values()])
-          #  print(type(my_dict.get(str(move[1]))[len(my_dict.get(str(move[1])))-1-ele_to_move]), 'look')
-           
-            #part one
-            my_dict[str(move[1])].pop()
-       
-    
-    res = [val[-1] for val in my_dict.values()]
-    return ''.join(res)
-  #  return my_dict
-
-
-
-def get_moves(move_str: list) -> list:
-    moves_list = []
-    for move in move_str:
-        moves_list.append([int(s) for s in re.findall(r'-?\d+\.?\d*', move)])        
-    return moves_list
-
-print(find_struc_and_moves(LINES))
+def solution_str(my_dict: dict) -> str: 
+    return ''.join([val[-1] for val in my_dict.values()])
+  
+print('Part one solution:', part_one(LINES))
+print('Part two solution:', part_two(LINES))
