@@ -1,17 +1,20 @@
+import time
+start=time.time()
+
 with open ('input.txt') as ifile:
-    LINES = ifile.readlines()
+    LINES = ifile.read()
+
+def is_marker(word: str) -> bool:
+    #return len(set(word)) == len(word)   ## optimized option -- suggested solution
+    count=0
+    for lett in word:
+        count += (word.count(lett))
+    return count == len(word)
 
 def find_marker(lines: str, range_val: int) -> int:
-    found_marker = False
-    for i in range(2, len(lines)-range_val-2):
-        count=0
-        for lett in lines[i: i+range_val]:
-            if found_marker == False:
-                count += (lines[i: i+range_val].count(lett))
-        if count == range_val:
-            found_marker = True
-            break
-    return (i+range_val-2)
+    for i in range(len(lines)-range_val):
+        if is_marker(lines[i:i+range_val]):         
+            return (i+range_val)
 
 def part_one(lines: str, str_len: int) -> int:
     return find_marker(lines, str_len)
@@ -19,5 +22,6 @@ def part_one(lines: str, str_len: int) -> int:
 def part_two(lines: str, str_len: int) -> int:
     return find_marker(lines, str_len)
     
-print(part_one(str(LINES), 4))
-print(part_two(str(LINES), 14))
+print(part_one(LINES, 4))
+print(part_two(LINES, 14))
+print(f'execuded in {time.time()-start}')
