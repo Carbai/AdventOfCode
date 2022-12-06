@@ -37,7 +37,7 @@ def get_moves(lines: list) -> list:
     return moves_to_do
 
     #part one  
-def part_one (lines: list) -> str:
+def part_one(lines: list) -> str:
     my_dict = find_struc_and_moves(lines)
     moves_to_do = get_moves(lines)
     for move in moves_to_do:
@@ -46,7 +46,7 @@ def part_one (lines: list) -> str:
     return (solution_str(my_dict))
 
     #part two
-def part_two (lines: list) -> str:  
+def part_two(lines: list) -> str:  
     my_dict = find_struc_and_moves(lines)
     moves_to_do = get_moves(lines)
     for move in moves_to_do:
