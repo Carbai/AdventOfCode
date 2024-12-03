@@ -3,8 +3,6 @@ import re
 with open('./Data/day3.txt') as ifile:
     lines=ifile.readlines()
     line=''.join([i for i in lines])
-    print(line)
-    sum_p1=0
 
     def get_matches(text, pattern, dis_pattern=None):
         if not dis_pattern:
@@ -21,7 +19,6 @@ with open('./Data/day3.txt') as ifile:
         return res
         
     ##Part one
-
     pattern = r"mul\(\d+\,\d+\)"
     print('Part one: ', get_res(get_matches(line,pattern)))
 
