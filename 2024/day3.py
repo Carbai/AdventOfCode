@@ -3,6 +3,7 @@ import re
 with open('./Data/day3.txt') as ifile:
     lines=ifile.readlines()
     line=''.join([i for i in lines])
+    print(line)
     sum_p1=0
 
     def get_matches(text, pattern, dis_pattern=None):
@@ -25,5 +26,5 @@ with open('./Data/day3.txt') as ifile:
     print('Part one: ', get_res(get_matches(line,pattern)))
 
     ##Part two
-    disable_pattern = r"don\'t\(\).*?do\(\)"  
+    disable_pattern = r"don\'t\(\)(.|\n)*?do\(\)"  
     print('Part two: ', get_res(get_matches(line, pattern, dis_pattern=disable_pattern)))
