@@ -1,5 +1,7 @@
 import itertools
 from itertools import product
+import time
+start_time = time.time()
 
 with open('./Data/day7.txt') as ifile:
     ops_dict={}
@@ -21,9 +23,9 @@ with open('./Data/day7.txt') as ifile:
         curr_val=values[0]
         for j in range(1,len(values)):
             if ops[j-1]=='*':
-                curr_val=curr_val*values[j]
+                curr_val*=values[j]
             elif ops[j-1]=='+':
-                curr_val=curr_val+values[j]
+                curr_val+=values[j]
             else:
                 curr_val=int(str(curr_val)+str(values[j]))
         return curr_val
@@ -32,10 +34,10 @@ with open('./Data/day7.txt') as ifile:
     values=ops_dict.values()
     keep=[]
     discard=[]
+
     for target, val in zip(targets,values):
         local_keep=[]
         combs=get_comb(len(val),flag='p1')
-
         ori_target=target
         if type(target)==str:
             target=int(target.split('_')[0])
@@ -66,6 +68,8 @@ with open('./Data/day7.txt') as ifile:
                         local_keep.append(target)
             if local_keep:
                 keep.extend(list(set(local_keep)))
-                
+
     print('Solution to part two: ', sum(keep)+p1)
+    print("--- %s seconds ---" % (time.time() - start_time))
+
 
