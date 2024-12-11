@@ -11,7 +11,6 @@ with open('./Data/day10.txt') as ifile:
         return map_dict
     
     def get_moves(coord: list, rows, cols)-> list:
-      #  print(coord)
         moves=[[0,1],[0,-1],[1,0],[-1,0]]
         return [i for i in [[x+y for x,y in zip(coord, move)] for move in moves] if i[0]>=0 and i[0]<=rows and i[1]>=0 and i[1]<=cols]
 
@@ -20,7 +19,6 @@ with open('./Data/day10.txt') as ifile:
         if flag=='p1':
             if move in visited:
                 return n_trail
-        
             visited.append(move)
         if i == 9:
             return 1
