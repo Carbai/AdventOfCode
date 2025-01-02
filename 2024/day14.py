@@ -43,7 +43,6 @@ with open('./Data/day14.txt') as ifile:
     robots_pos=parse_input(lines)
     xf=[]
     quadrants_count={k: 0 for k in range(1,5)}
-  #  print(robots_pos)
     for time in range(100):
         pos_arr=np.zeros((HEIGHT,WIDTH))
         xf=[]
